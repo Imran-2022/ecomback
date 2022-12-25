@@ -21,6 +21,7 @@ module.exports.signUp = async (req, res) => {
     const token = user.generateJWT();
 
     const result = await user.save()
+    console.log(result)
     return res.status(201).send({
         message: "registration successfull",
         token: token,

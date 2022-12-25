@@ -21,8 +21,10 @@
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
+    "mailgun-js": "^0.22.0",
     "mongoose": "^6.8.1",
     "morgan": "^1.10.0",
-    "ssl-commerz-node": "^1.0.4"
+    "ssl-commerz-node": "^1.0.4",
+    "uuid": "^9.0.0"
   }
 }

@@ -4,7 +4,8 @@ const { validate, User } = require('../models/user')
 
 
 module.exports.signUp = async (req, res) => {
-    const { error } = validate(req.body)
+    const { name, email, password } = req.body
+    const { error } = validate({ name, email, password })
     if (error) return res.status(400).send(error.details[0].message)
 
     let user = {}
@@ -12,8 +13,7 @@ module.exports.signUp = async (req, res) => {
     user = await User.findOne({ email: req.body.email })
     if (user) return res.status(400).send('User already Registered')
 
-    user = new User(_.pick(req.body, ['name', 'email', 'password']))
-
+    user = new User(_.pick(req.body, ['name', 'email', 'password', 'isVerified']))
     const solt = await bcrypt.genSalt(10)
 
     user.password = await bcrypt.hash(user.password, solt)

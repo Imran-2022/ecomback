@@ -28,29 +28,31 @@ const userSchema = Schema({
         type: String,
         enum: ['user', 'admin'],
         default: 'user'
-    }
+    },
+    isVerified: Boolean,
 }, { timestamps: true }
 
 )
 
-userSchema.methods.generateJWT = function(){
+userSchema.methods.generateJWT = function () {
     const token = jwt.sign({
-        _id:this._id,
-        email:this.email,
-        role:this.role,
-        name:this.name,
-    },process.env.JWT_SECRET,{expiresIn:"7d"})
+        _id: this._id,
+        email: this.email,
+        role: this.role,
+        name: this.name,
+        isVerified: this.isVerified
+    }, process.env.JWT_SECRET, { expiresIn: "7d" })
     return token;
 }
 
-const validateUser=user=>{
+const validateUser = user => {
     const schema = Joi.object({
-        name:Joi.string().min(3).max(100).required(),
-        email:Joi.string().min(5).max(255).required(),
-        password:Joi.string().min(5).max(255).required(),
+        name: Joi.string().min(3).max(100).required(),
+        email: Joi.string().min(5).max(255).required(),
+        password: Joi.string().min(5).max(255).required(),
     })
     return schema.validate(user)
 }
 
-module.exports.User=model('User',userSchema);
-module.exports.validate=validateUser;
+module.exports.User = model('User', userSchema);
+module.exports.validate = validateUser;

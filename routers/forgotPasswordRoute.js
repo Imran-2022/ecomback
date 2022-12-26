@@ -32,20 +32,4 @@ module.exports.ForgotPasswordRoute = async (req, res) => {
             return res.send(result)
         }
     }
-
-
-    //  let user = {}
-    // user = await User.findOne({ verificationString: req.body.verificationString })
-    // if(!user) return res.send("error")
-    // // console.log(user);
-    // user = new User(_.pick(user, ['name', 'email', 'password', 'isVerified', 'verificationString']))
-    // const result = await User.updateOne({ verificationString: req.body.verificationString }, { isVerified: true})
-    // const token = await user.generateJWT();
-    // if (result) {
-    //     return res.status(201).send({
-    //         message: "verifited successfully !",
-    //         token: token,
-    //         user
-    //     })
-    // }
 }

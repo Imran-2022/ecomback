@@ -43,7 +43,6 @@ userSchema.methods.generateJWT = function () {
         role: this.role,
         name: this.name,
         isVerified: this.isVerified,
-        verificationString:this.verificationString
     }, process.env.JWT_SECRET, { expiresIn: "7d" })
     return token;
 }

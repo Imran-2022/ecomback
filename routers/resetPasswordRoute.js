@@ -14,7 +14,6 @@ module.exports.resetPasswordRoute = async (req, res) => {
     if(result.modifiedCount>0){
         const token = user.generateJWT();
         console.log(token)
-
        return res.send(_.pick(user, ['name', 'email', 'isVerified']))
     }
 }

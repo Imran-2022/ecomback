@@ -30,6 +30,7 @@ const userSchema = Schema({
         default: 'user'
     },
     isVerified: Boolean,
+    verificationString:String,
 }, { timestamps: true }
 
 )
@@ -40,7 +41,8 @@ userSchema.methods.generateJWT = function () {
         email: this.email,
         role: this.role,
         name: this.name,
-        isVerified: this.isVerified
+        isVerified: this.isVerified,
+        verificationString:this.verificationString
     }, process.env.JWT_SECRET, { expiresIn: "7d" })
     return token;
 }

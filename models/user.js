@@ -31,6 +31,7 @@ const userSchema = Schema({
     },
     isVerified: Boolean,
     verificationString:String,
+    passwordResetCode:String,
 }, { timestamps: true }
 
 )

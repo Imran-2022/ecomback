@@ -52,11 +52,10 @@ module.exports.getProduct = async (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 10;
     console.log(order, sortBy, limit)
     const products = await Product.find()
-    .select({photo:0})
-        // .select({ photo: 0, description: 0 })
-        // .sort({ [sortBy]: order })
-        // .limit(limit)
-        // .populate('category', "name createdAt");
+        .select({ photo: 0, description: 0 })
+        .sort({ [sortBy]: order })
+        .limit(limit)
+        .populate('category', "name createdAt");
     return res.status(200).send(products)
 }
 
@@ -104,7 +103,7 @@ module.exports.updateProductById = async (req, res) => {
                         message: "product Updated successfully."
                     })
                 })
-            })
+            }) 
         } else {
             product.save((err, result) => {
                 if (err) return res.status(500).send('something failed 🤦‍♂️')
@@ -123,8 +122,6 @@ module.exports.updateProductById = async (req, res) => {
 
 
 /*
-
-
 
 const body ={
     order:'desc',

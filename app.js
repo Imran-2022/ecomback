@@ -1,27 +1,24 @@
 require('express-async-errors')
+
 const express = require('express')
-const app = express();
-const cors = require('cors')
-const morgan = require('morgan')
-const err= require('./middlewares/error')
-const userRouter = require('./routers/userRouter')
-const categoryRouter=require('./routers/catagoryRouter')
-const productRouter=require('./routers/productRouter')
-app.use(express.json())
-app.use(cors())
+const app = express()
+const err = require('./middlewares/error')
 
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'))
-}
+require('./middlewares')(app)
+// by default ata index.js call korbe !
 
-app.use('/api/user',userRouter);
-app.use('/api/category',categoryRouter);
-app.use('/api/product',productRouter);
+require('./middlewares/routes')(app)
 
-app.get('/', (req, res) => {
-    res.send("hellow from dubai 🐸");
-})
+/*
+
+const md= require('./middlewares')
+md(app)
+
+it's simplified version is require('./middlewares)(app)
+*/
 
 app.use(err)
+//  must be after all route . 
+// this middleware for specially for error handling . 😛
 
 module.exports = app;

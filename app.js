@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/api/user',userRouter)
-app.use('api/category',categoryRouter)
+app.use('/api/category',categoryRouter)
 
 app.get('/', (req, res) => {
     res.send("hellow from dubai 🐸");

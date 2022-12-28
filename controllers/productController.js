@@ -23,7 +23,7 @@ module.exports.createProduct = async (req, res) => {
             fs.readFile(files.photo.filepath, (err, data) => {
                 if (err) return res.status(400).send("problem in file Data")
                 product.photo.data = data;
-                console.log(files.photo.mimetype);
+                // console.log(files.photo.mimetype);
                 product.photo.contentType = files.photo.mimetype;
                 product.save((err, result) => {
                     //  here try catch don't work becase it's in a if condition , but we can use callback here like that. 
@@ -46,14 +46,20 @@ module.exports.createProduct = async (req, res) => {
 // api/porduct?order=desc&sortBy=name&limit=10
 
 module.exports.getProduct = async (req, res) => {
-    // const {order,sortBy,limit}=req.query;
     let order = req.query.order === 'desc' ? -1 : 1;
     let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
     let limit = req.query.limit ? parseInt(req.query.limit) : 10;
-    console.log(order, sortBy, limit)
+    // let currentPage= req.query.currentPage?parseInt(currentPage):1;
+    // console.log(order, sortBy, limit,currentPage)
+    let page=req.query.currentPage?parseInt(req.query.currentPage):1;
+    let skips=0;
+    if(page>1){
+        skips=limit*(page-1)
+    }
     const products = await Product.find()
         .select({ photo: 0, description: 0 })
         .sort({ [sortBy]: order })
+        .skip(skips)
         .limit(limit)
         .populate('category', "name createdAt");
     return res.status(200).send(products)
@@ -92,7 +98,7 @@ module.exports.updateProductById = async (req, res) => {
         _.assignIn(product, updatedFields);// like patch. update the changes only.
 
         if (files.photo) {
-            console.log(files.photo)
+            // console.log(files.photo)
             fs.readFile(files.photo.filepath, (err, data) => {
                 if (err) return res.status(400).send('something wrong ! 🤦‍♂️')
                 product.photo.data = data,
@@ -159,7 +165,7 @@ module.exports.filterProduct = async (req, res) => {
                     $gte: filters['price'][0],
                     $lte: filters['price'][1]
                 }
-                console.log(args);
+                // console.log(args);
 
             }
             if (key === 'category') {
@@ -167,7 +173,7 @@ module.exports.filterProduct = async (req, res) => {
                 args['category'] = {
                     $in: filters['category']
                 }
-                console.log(args)
+                // console.log(args)
             }
         }
     }
@@ -181,4 +187,9 @@ module.exports.filterProduct = async (req, res) => {
         .limit(limit)
 
     return res.status(200).send(products)
+}
+
+module.exports.totalProduct=async(req,res)=>{
+    const total = await Product.count();
+    res.send({total})
 }

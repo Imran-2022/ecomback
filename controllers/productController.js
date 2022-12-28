@@ -59,8 +59,8 @@ module.exports.getProduct = async (req, res) => {
     const products = await Product.find()
         .select({ photo: 0, description: 0 })
         .sort({ [sortBy]: order })
-        .skip(skips)
-        .limit(limit)
+        .skip()
+        .limit()
         .populate('category', "name createdAt");
     return res.status(200).send(products)
 }

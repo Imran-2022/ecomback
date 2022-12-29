@@ -25,6 +25,7 @@
     "mongoose": "^6.8.1",
     "morgan": "^1.10.0",
     "ssl-commerz-node": "^1.0.4",
+    "stripe": "^11.5.0",
     "uuid": "^9.0.0"
   }
 }

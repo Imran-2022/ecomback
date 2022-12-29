@@ -41,6 +41,6 @@ module.exports.updateCartIteam = async (req, res) => {
 module.exports.deleteCartItem = async (req, res) => {
     const _id= req.params.id;
     userId= req.user._id;
-    await CartItem.deleteOne({_id:_id,user:userId});
-    return res.status(200).send("deleted ! 😛")
+    const result = await CartItem.deleteOne({_id:_id,user:userId});
+    return res.status(200).send({message:"deleted !"})
 }

@@ -3,7 +3,7 @@ const { CartItem } = require('../models/cartItem')
 
 module.exports.createCartIteam = async (req, res) => {
     console.log(req.body);
-    let { price, product } = _.pick(req.body, ['price', 'product'])
+    let { price, product,category } = _.pick(req.body, ['price', 'product','category'])
     const item = await CartItem.findOne({
         user: req.user._id,
         product: product,
@@ -12,7 +12,7 @@ module.exports.createCartIteam = async (req, res) => {
     if (item) return res.status(400).send("item already exixts in cart")
 
     let cartItem = new CartItem({
-        price: price, product: product, user: req.user._id
+        price: price, product: product, user: req.user._id,category
     })
     console.log(cartItem)
    const result= await cartItem.save();
@@ -32,9 +32,10 @@ module.exports.getCartIteam = async (req, res) => {
 
 module.exports.updateCartIteam = async (req, res) => {
     const { _id, count } = _.pick(req.body, ['count', '_id'])
-    userId = req.user._id;
+    userId= req.user._id;
+    console.log("let's another try", _id,count,userId)
     await CartItem.updateOne({ _id: _id, user: userId }, { count: count })
-    return res.status(200).send("iteam Updated !");
+    return res.status(200).send({message:"return"});
 }
 
 module.exports.deleteCartItem = async (req, res) => {

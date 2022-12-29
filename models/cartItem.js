@@ -17,7 +17,8 @@ const CartItemSchema= Schema({
         type:Schema.Types.ObjectId,
         ref:'User',
         required:true,
-    }
+    },
+    category:String,
 
 },{timeStamps:true})
 

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 module.exports = async function (req, res, next) {
-    let token = req.header('Authorization')
+    let token =await req.header('Authorization')
     if (!token) return res.status(401).send("Access Denied ! to token provided")
     else token = token.split(" ")[1].trim();
 

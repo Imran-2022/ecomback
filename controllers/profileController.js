@@ -1,12 +1,12 @@
 const _ = require('lodash')
-const { Profile } = require('../models/profile')
+const {Profile} = require('../models/profile')
 
 module.exports.getProfile = async (req, res) => {
-    const userId = req.user._id;
-    const profile = await Profile.findOne({ user: userId })
+    const userId =await req.user._id;
+    const profile = await Profile.findOne({ user: userId }).populate('user', 'name')
     // find - [] asbe
     // findOne - {} asbe
-    return res.status(200).send(profile)
+    if(profile)return res.status(200).send(profile)
 }
 
 module.exports.setProfile = async (req, res) => {
@@ -14,7 +14,6 @@ module.exports.setProfile = async (req, res) => {
     const userId = req.user._id;
     const userProfile=_.pick(req.body,['phone','address1','address2','city','state','postCode','country'])
     userProfile['user']=userId;
-
     let profile = await Profile.findOne({user:userId})
     if(profile){
         // update
@@ -25,6 +24,6 @@ module.exports.setProfile = async (req, res) => {
         profile= new Profile(userProfile)
         await profile.save()
     }
-    return res.status(200).send("updated Successfully !")
+    return res.status(200).send(userProfile)
     
 }

@@ -1,14 +1,14 @@
 const router = require('express').Router()
-const { createPaymentIntent } = require('../controllers/paymentController');
+const { createPaymentIntent,addPaymentDataToServer,getPaymentData } = require('../controllers/paymentController');
 
 const authorize=require('../middlewares/authorize')
 
 router.route('/create-payment-intent')
     .post(authorize,createPaymentIntent)
     
-// router.route('/')
-//     .post(authorize,setProfile)
-//     .get(authorize,getProfile)
+router.route('/')
+    .post(authorize,addPaymentDataToServer)
+    .get(authorize,getPaymentData)
 
 
 module.exports=router;
